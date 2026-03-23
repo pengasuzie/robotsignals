@@ -727,6 +727,47 @@ footer {
   max-width: 900px;
 }
 
+/* === Film: Work === */
+.film-work {
+  padding: 120px 0 80px;
+}
+
+.work-item {
+  padding: 48px 0;
+}
+
+.work-item + .work-item {
+  margin-top: 40px;
+}
+
+.work-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.work-header h2 {
+  font-size: clamp(24px, 3vw, 32px);
+  font-weight: 900;
+  letter-spacing: -0.02em;
+}
+
+.work-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--grey);
+}
+
+.work-item p {
+  font-size: 16px;
+  color: var(--grey);
+  line-height: 1.7;
+  max-width: 600px;
+}
+
 /* === Scroll Reveal === */
 .scroll-reveal {
   opacity: 0;
