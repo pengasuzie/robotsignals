@@ -1,4 +1,6 @@
 import Link from "next/link";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
 
 const tools = [
   { cat: "Skill", name: "voice-to-text", desc: "Transcribe audio and video files with speaker identification. WhisperX-powered diarization, local processing.", href: "/tools/voice-to-text" },
@@ -18,19 +20,7 @@ const tools = [
 export default function Lab() {
   return (
     <>
-      <header>
-        <div className="container">
-          <div className="header-grid">
-            <div className="logo"><Link href="/">Robot Signals</Link></div>
-            <nav>
-              <Link href="/#services">Services</Link>
-              <Link href="/lab">Lab</Link>
-              <Link href="/#about">About</Link>
-              <Link href="/#contact">Contact</Link>
-            </nav>
-          </div>
-        </div>
-      </header>
+      <Header />
 
       <section className="hero">
         <div className="container">
@@ -210,17 +200,7 @@ export default function Lab() {
         </div>
       </section>
 
-      <footer>
-        <div className="container">
-          <div className="footer-grid">
-            <div className="footer-left">&copy; 2026 Robot Signals. Brisbane, Australia.</div>
-            <div className="footer-right">
-              <a href="https://www.linkedin.com/in/bruces/">LinkedIn</a>
-              <a href="https://github.com/pengasuzie">GitHub</a>
-            </div>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </>
   );
 }
