@@ -1,247 +1,157 @@
-import Link from "next/link";
-
-const tools = [
-  { cat: "Skill", name: "voice-to-text", desc: "Transcribe audio and video files with speaker identification. WhisperX-powered diarization, local processing.", href: "/tools/voice-to-text" },
-  { cat: "Skill", name: "text-to-voice", desc: "Convert text to natural speech with 50 voices. Kokoro engine, no cloud APIs. Generates MP3 in seconds.", href: "/tools/text-to-voice" },
-  { cat: "Skill", name: "strategic-analysis", desc: "Analyze meeting transcripts with full project context. Four modes: sales, consulting, competitive, debrief.", href: "/tools/strategic-analysis" },
-  { cat: "Skill", name: "opportunity-brief", desc: "Capture a new business opportunity: pitch, model, people, risks, and initial assessment in a structured brief.", href: "/tools/opportunity-brief" },
-  { cat: "Skill", name: "market-research", desc: "Size the market, find demand signals, check trends. TAM/SAM/SOM analysis with evidence-based scoring.", href: "/tools/market-research" },
-  { cat: "Skill", name: "competitor-landscape", desc: "Map existing players in a market. Identify gaps, positioning opportunities, and competitive dynamics.", href: "/tools/competitor-landscape" },
-  { cat: "Skill", name: "strategy-session", desc: "Brainstorm go-to-market, differentiation, and blue ocean strategy. Interactive creative thinking session.", href: "/tools/strategy-session" },
-  { cat: "Skill", name: "due-diligence", desc: "Vet people, financials, legal, and technical feasibility. Structured DD findings with red flag tracking.", href: "/tools/due-diligence" },
-  { cat: "Skill", name: "viability-assessment", desc: "Score an opportunity across 8 weighted dimensions. Produces a go/no-go recommendation with confidence level.", href: "/tools/viability-assessment" },
-  { cat: "Skill", name: "new-idea", desc: "Scaffold a new idea directory with brief, research, competitors, and assessment files. Starting point for evaluation.", href: "/tools/new-idea" },
-  { cat: "Skill", name: "competitive-intel", desc: "Competitive gap analysis. Signal vs noise classification, gap matrix, and actionable report.", href: "/tools/competitive-intel" },
-  { cat: "Skill", name: "voice-briefing", desc: "Turn a meeting transcript or document into a concise spoken audio briefing you can listen to on the go.", href: "/tools/voice-briefing" },
-];
+import Header from "./components/Header";
+import Footer from "./components/Footer";
 
 export default function Home() {
   return (
     <>
-      <header>
-        <div className="container">
-          <div className="header-grid">
-            <div className="logo"><Link href="/">Robot Signals</Link></div>
-            <nav>
-              <Link href="/tools">Tools</Link>
-              <a href="#about">About</a>
-              <a href="https://github.com/pengasuzie">GitHub</a>
-            </nav>
-          </div>
-        </div>
-      </header>
+      <Header />
 
+      {/* HERO */}
       <section className="hero">
         <div className="container">
           <div className="hero-grid">
             <div>
-              <h1>Workflow Automation<br /><span>AI Tooling</span></h1>
+              <h1>AI Strategy &amp;<br /><span>Engineering</span></h1>
             </div>
             <div className="hero-aside">
-              I build AI automation tools for me, customers, and open source. Lead generation, voice synthesis, help widgets, and agent skills &mdash; all used in production systems.
+              We help businesses identify where AI fits and build the solutions that ship. Strategy, custom development, and ongoing support from a senior team that&apos;s done it before.
             </div>
           </div>
         </div>
       </section>
 
-      {/* PROJECTS */}
-      <section className="projects" id="tools">
+      {/* SERVICES */}
+      <section className="services" id="services">
         <div className="container">
-          <div className="section-label">Open Source Tools</div>
-
-          {/* ai-voice-kit */}
-          <div className="project-card">
-            <div className="project-info">
-              <div className="project-tag">Skill</div>
-              <h2>ai-voice-kit</h2>
-              <p className="desc">Local AI voice tools for Claude Code. Text-to-speech with 50 voices (Kokoro), audio transcription with speaker identification (WhisperX). No cloud APIs, runs on your machine.</p>
-              <ul className="feature-list">
-                <li>3 skills: voice-to-text, strategic-analysis, text-to-voice</li>
-                <li>50 voices, generates audio in seconds</li>
-                <li>Transcription with speaker diarization</li>
-                <li>4 analysis modes: sales, consulting, competitive, debrief</li>
-                <li>Full chain: recording &rarr; analysis &rarr; audio briefing</li>
+          <div className="section-label">What We Do</div>
+          <div className="services-grid">
+            <div className="service-card">
+              <h3>AI Strategy &amp; Roadmapping</h3>
+              <p>We assess where AI creates real value in your business and build a prioritised roadmap to get there.</p>
+              <ul>
+                <li>Opportunity identification</li>
+                <li>ROI assessment</li>
+                <li>Build-vs-buy analysis</li>
+                <li>Implementation roadmap</li>
               </ul>
-              <a href="https://github.com/pengasuzie/ai-voice-kit" className="btn primary">View on GitHub</a>
-              <Link href="/tools/ai-voice-kit" className="btn">Setup Guide</Link>
             </div>
-            <div className="project-demo">
-              <div className="code-block">
-                <span className="comment"># The full chain</span>{"\n"}
-                &gt; <span className="fn">/voice-to-text</span> client-call.m4a{"\n"}
-                <span className="string">Transcribing... 2 speakers found.</span>{"\n\n"}
-                &gt; <span className="fn">/strategic-analysis</span> client-call.txt{"\n"}
-                <span className="string">Gathering project context...</span>{"\n"}
-                <span className="string">Output: analysis.md + analysis-voice.txt</span>{"\n\n"}
-                &gt; <span className="fn">/text-to-voice</span> analysis-voice.txt{"\n"}
-                <span className="string">Generating with Kokoro (bf_lily)...</span>{"\n\n"}
-                <span className="tag">Output:</span>{"\n"}
-                <span className="tag">&#x251C;&#x2500; analysis-voice.mp3  (6m 18s)</span>{"\n"}
-                <span className="tag">&#x2514;&#x2500; Engine: Kokoro, Voice: bf_lily</span>{"\n\n"}
-                <span className="comment"># Listen on the drive home.</span>
-              </div>
-            </div>
-          </div>
-
-          {/* lead-monitor */}
-          <div className="project-card">
-            <div className="project-info">
-              <div className="project-tag">Tool</div>
-              <h2>lead-monitor</h2>
-              <p className="desc">Automated lead generation that watches Reddit, Hacker News, and RSS feeds for buying signals. Scores relevance, deduplicates, and notifies you via email or Slack.</p>
-              <ul className="feature-list">
-                <li>Keyword matching with intent scoring</li>
-                <li>Reddit, Hacker News, and RSS sources</li>
-                <li>Email (Resend) and Slack notifications</li>
-                <li>30-day historical backfill</li>
-                <li>Run as cron job or on-demand</li>
+            <div className="service-card">
+              <h3>Custom AI Solutions</h3>
+              <p>Purpose-built AI systems &mdash; RAG pipelines, vision processing, intelligent agents, and LLM integrations.</p>
+              <ul>
+                <li>Retrieval-augmented generation</li>
+                <li>Computer vision</li>
+                <li>AI agents &amp; automation</li>
+                <li>LLM integration &amp; fine-tuning</li>
               </ul>
-              <a href="https://github.com/pengasuzie/lead-monitor" className="btn primary">View on GitHub</a>
-              <Link href="/tools/lead-monitor" className="btn">Setup Guide</Link>
             </div>
-            <div className="project-demo">
-              <div className="code-block">
-                <span className="comment">{"// Configure your keywords and sources"}</span>{"\n"}
-                <span className="keyword">const</span> config = {"{"}{"\n"}
-                {"  "}keywords: {"{"}{"\n"}
-                {"    "}high: [<span className="string">&quot;need a tool for&quot;</span>, <span className="string">&quot;looking for&quot;</span>],{"\n"}
-                {"    "}medium: [<span className="string">&quot;automate&quot;</span>, <span className="string">&quot;alternative to&quot;</span>],{"\n"}
-                {"  "}{"}"},{"\n"}
-                {"  "}sources: {"{"}{"\n"}
-                {"    "}reddit: [<span className="string">&quot;r/sales&quot;</span>, <span className="string">&quot;r/startups&quot;</span>],{"\n"}
-                {"    "}rss: [<span className="string">&quot;techcrunch.com/feed&quot;</span>],{"\n"}
-                {"    "}hn: <span className="keyword">true</span>,{"\n"}
-                {"  "}{"}"},{"\n"}
-                {"  "}notify: {"{"}{"\n"}
-                {"    "}email: <span className="string">&quot;you@company.com&quot;</span>,{"\n"}
-                {"    "}slack: <span className="string">&quot;#leads&quot;</span>,{"\n"}
-                {"  "}{"}"},{"\n"}
-                {"}"};
-              </div>
-            </div>
-          </div>
-
-          {/* docsbot */}
-          <div className="project-card">
-            <div className="project-info">
-              <div className="project-tag">Library</div>
-              <h2>docsbot</h2>
-              <p className="desc">Drop-in AI help assistant for any website. Add a floating chat widget powered by Claude that answers questions from your knowledge base. Three lines of code.</p>
-              <ul className="feature-list">
-                <li>React widget with typewriter animation</li>
-                <li>Headless hook for custom UI</li>
-                <li>Backend handler for Next.js / Express</li>
-                <li>CSS custom properties for theming</li>
-                <li>One dependency (react-markdown)</li>
+            <div className="service-card">
+              <h3>Ongoing Support</h3>
+              <p>We stay with you after launch. Training, retainers, and fractional AI team arrangements.</p>
+              <ul>
+                <li>Team training &amp; workshops</li>
+                <li>Retainer support</li>
+                <li>Fractional AI team</li>
+                <li>System integration</li>
               </ul>
-              <a href="https://github.com/pengasuzie/docsbot" className="btn primary">View on GitHub</a>
-              <Link href="/tools/docsbot" className="btn">Setup Guide</Link>
-            </div>
-            <div className="project-demo">
-              <div className="widget-demo">
-                <div className="widget-header">
-                  <div className="widget-header-title">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
-                    Help
-                  </div>
-                </div>
-                <div className="widget-body">
-                  <div className="widget-msg user">How do I invite team members?</div>
-                  <div className="widget-msg bot">Go to <strong>Settings &rarr; Team</strong> and click <strong>Invite</strong>. Enter their email and assign a role: Admin, Editor, or Viewer. They&apos;ll get an invite link immediately.</div>
-                </div>
-                <div className="widget-input">
-                  <input type="text" placeholder="Ask a question..." disabled />
-                  <button disabled>
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* claude-code-starter */}
-          <div className="project-card">
-            <div className="project-info">
-              <div className="project-tag">Starter Kit</div>
-              <h2>claude-code-starter</h2>
-              <p className="desc">A pre-configured Claude Code project with 20 skills for voice/audio, strategic analysis, opportunity evaluation, and product development. Clone it, open it, start talking.</p>
-              <ul className="feature-list">
-                <li>20 skills across 4 categories, ready to use</li>
-                <li>Interactive getting-started guide</li>
-                <li>6-step opportunity evaluation pipeline</li>
-                <li>BMAD Method with 7 product dev agents</li>
-                <li>Pre-approved permissions, no constant prompts</li>
-              </ul>
-              <a href="https://github.com/pengasuzie/claude-code-starter" className="btn primary">View on GitHub</a>
-              <Link href="/tools/claude-code-starter" className="btn">Details</Link>
-            </div>
-            <div className="project-demo">
-              <div className="code-block">
-                <span className="comment"># Clone and go</span>{"\n"}
-                &gt; <span className="fn">git clone</span> github.com/.../claude-code-starter{"\n"}
-                &gt; <span className="fn">cd</span> claude-code-starter &amp;&amp; <span className="fn">claude</span>{"\n\n"}
-                <span className="comment"># Just talk naturally</span>{"\n"}
-                &gt; <span className="string">Transcribe this meeting recording</span>{"\n"}
-                <span className="tag">Transcribing... 2 speakers found.</span>{"\n\n"}
-                &gt; <span className="string">I have a new business idea</span>{"\n"}
-                <span className="tag">Let&apos;s capture this properly...</span>{"\n\n"}
-                &gt; <span className="string">Score this opportunity</span>{"\n"}
-                <span className="tag">Recommendation: Conditional Go (7.2/10)</span>
-              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* MORE TOOLS */}
-      <section className="skills" id="more-tools">
+      {/* PROOF POINTS */}
+      <section className="proof">
         <div className="container">
-          <div className="section-label">More Tools</div>
-          <div className="skills-grid">
-            {tools.map((tool) => (
-              <Link key={tool.name} href={tool.href} className="skill">
-                <div className="skill-cat">{tool.cat}</div>
-                <h3>{tool.name}</h3>
-                <p>{tool.desc}</p>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ABOUT */}
-      <section className="about" id="about">
-        <div className="container">
-          <div className="section-label">About</div>
-          <div className="about-grid">
-            <div className="about-text">
-              <p>Based in Brisbane, Australia, I built a software consulting business (2008-2019) and then a private equity backed enterprise SaaS company acquired by Seattle-listed Smartsheet in 2022. I&apos;m now building an AI-native logistics platform and helping small businesses ship production AI solutions in document intelligence, workflow automation, RAG, LLM integration. The useful stuff gets open-sourced along the way.</p>
-              <p>Everything here started as something I needed for a real project. The lead monitor runs daily for a client. The help widget is live in production. The Claude Code skills power my consulting practice. If you&apos;re in sales, marketing, or building a startup and want to automate with AI &mdash; I hope you find them as useful as I have. Reach out if I can help.</p>
+          <div className="section-label">Selected Work</div>
+          <div className="proof-grid">
+            <div className="proof-card">
+              <div className="proof-label">Logistics</div>
+              <h3>StarShipper</h3>
+              <p>AI-native freight platform. Vision parsing for document intelligence, RAG for operational knowledge, workflow automation.</p>
             </div>
-            <div className="about-links">
-              <h3>Links</h3>
-              <a href="https://www.linkedin.com/in/bruces/">LinkedIn <span>&rarr; connect</span></a>
-              <a href="https://www.starshipper.io">StarShipper <span>&rarr; freight automation</span></a>
-              <a href="https://github.com/pengasuzie">GitHub <span>&rarr; all repos</span></a>
-              <a href="https://github.com/pengasuzie/docsbot">docsbot <span>&rarr; AI help widget</span></a>
-              <a href="https://github.com/pengasuzie/lead-monitor">lead-monitor <span>&rarr; lead signal scanner</span></a>
-              <a href="https://github.com/pengasuzie/ai-voice-kit">ai-voice-kit <span>&rarr; voice tools</span></a>
+            <div className="proof-card">
+              <div className="proof-label">Knowledge Platform</div>
+              <h3>Aireos</h3>
+              <p>Custom RAG platform for team knowledge management. Intelligent retrieval across documents, conversations, and internal systems.</p>
+            </div>
+            <div className="proof-card">
+              <div className="proof-label">Community</div>
+              <h3>Microsoft AI</h3>
+              <p>Building AI communities and partner ecosystem programs within the Microsoft AI platform.</p>
+            </div>
+            <div className="proof-card">
+              <div className="proof-label">SaaS Exit</div>
+              <h3>Outfit.io</h3>
+              <p>Founded and scaled an enterprise SaaS platform. Raised investment rounds. Acquired by US-listed Smartsheet.</p>
             </div>
           </div>
         </div>
       </section>
 
-      <footer>
+      {/* TEAM */}
+      <section className="team" id="about">
         <div className="container">
-          <div className="footer-grid">
-            <div className="footer-left">&copy; 2026 Robot Signals. Brisbane, Australia.</div>
-            <div className="footer-right">
-              <a href="https://www.linkedin.com/in/bruces/">LinkedIn</a>
-              <a href="https://github.com/pengasuzie">GitHub</a>
+          <div className="section-label">Team</div>
+          <div className="team-grid">
+            <div className="team-card">
+              <h3>Bruce Skingle</h3>
+              <div className="team-role">Founder</div>
+              <p>20+ years building software businesses. Founded a dev consultancy (10 years), then Outfit.io &mdash; raised capital, scaled the team, and exited to a US public company. Now focused on applied AI.</p>
+              <ul className="team-creds">
+                <li>AI engineering: RAG, vision, agents</li>
+                <li>MCSE certified</li>
+                <li>Startup founder &amp; CEO (successful exit)</li>
+                <li>10-year software consultancy</li>
+              </ul>
+            </div>
+            <div className="team-card">
+              <h3>Partner</h3>
+              <div className="team-role">AI Engineering</div>
+              <p>Certified Microsoft AI professional with deep platform expertise. Built and scaled a video automation startup. Brings enterprise AI architecture and Microsoft ecosystem experience.</p>
+              <ul className="team-creds">
+                <li>Microsoft Certified AI Professional</li>
+                <li>Video automation startup founder</li>
+                <li>Enterprise AI architecture</li>
+                <li>Microsoft platform specialist</li>
+              </ul>
             </div>
           </div>
         </div>
-      </footer>
+      </section>
+
+      {/* CONTACT */}
+      <section className="contact" id="contact">
+        <div className="container">
+          <div className="section-label">Get In Touch</div>
+          <div className="contact-grid">
+            <form className="contact-form">
+              <label>
+                Name
+                <input type="text" name="name" required />
+              </label>
+              <label>
+                Email
+                <input type="email" name="email" required />
+              </label>
+              <label>
+                Company
+                <input type="text" name="company" />
+              </label>
+              <label>
+                Message
+                <textarea name="message" required></textarea>
+              </label>
+              <button type="submit" className="btn primary">Send Message</button>
+            </form>
+            <div className="contact-aside">
+              <p>We typically respond within one business day. Tell us a bit about what you&apos;re working on and we&apos;ll let you know if we can help.</p>
+              <p>Based in Brisbane, Australia. We work with clients across APAC and globally.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <Footer />
     </>
   );
 }
