@@ -768,6 +768,64 @@ footer {
   max-width: 600px;
 }
 
+/* === Film: Capabilities === */
+.film-capabilities {
+  padding: 120px 0;
+}
+
+.film-capabilities .film-statement {
+  font-size: clamp(28px, 4.5vw, 56px);
+}
+
+/* === Film: Close === */
+.film-close {
+  padding: 120px 0 80px;
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.close-details {
+  margin-top: 48px;
+}
+
+.close-email {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--black);
+  text-decoration: none;
+}
+
+.close-email:hover {
+  color: var(--blue);
+}
+
+.close-location {
+  font-size: 15px;
+  color: var(--grey);
+  margin-top: 8px;
+}
+
+.close-links {
+  display: flex;
+  gap: 24px;
+  margin-top: 32px;
+}
+
+.close-links a {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--black);
+}
+
+.close-links a:hover {
+  color: var(--blue);
+}
+
 /* === Scroll Reveal === */
 .scroll-reveal {
   opacity: 0;

@@ -53,6 +53,33 @@ export default function Home() {
           </div>
         </ScrollReveal>
       </section>
+
+      {/* CAPABILITIES */}
+      <section className="film-capabilities">
+        <ScrollReveal>
+          <p className="film-statement">
+            Strategy. Engineering. Ongoing support. RAG, vision, agents&mdash;we&apos;ve built them all and we stay after launch.
+          </p>
+        </ScrollReveal>
+      </section>
+
+      {/* CLOSE */}
+      <section className="film-close">
+        <ScrollReveal>
+          <h2 className="film-statement">Let&apos;s talk.</h2>
+        </ScrollReveal>
+        <ScrollReveal delay={200}>
+          <div className="close-details">
+            <a href="mailto:hello@robotsignals.io" className="close-email">hello@robotsignals.io</a>
+            <p className="close-location">Brisbane, Australia</p>
+            <nav className="close-links">
+              <a href="https://www.linkedin.com/in/bruces/">LinkedIn</a>
+              <a href="https://github.com/pengasuzie">GitHub</a>
+              <a href="/lab">Lab</a>
+            </nav>
+          </div>
+        </ScrollReveal>
+      </section>
     </main>
   );
 }
