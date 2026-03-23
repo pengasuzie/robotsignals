@@ -2,18 +2,18 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Robot Signals — AI Tools & Open Source",
-  description: "Open-source AI tools for sales, marketing, and automation. Lead generation, text-to-speech, help widgets, and Claude agent skills.",
+  title: "Robot Signals — AI Studio",
+  description: "AI strategy and engineering for businesses ready to move. Custom AI solutions, RAG, vision, agents — built by a senior team with a track record of shipping.",
   openGraph: {
-    title: "Robot Signals — AI Tools & Open Source",
-    description: "Open source AI automation tools. Lead generation, voice synthesis, help widgets, and Claude Code skills.",
+    title: "Robot Signals — AI Studio",
+    description: "AI strategy and engineering for businesses. Custom solutions, RAG, vision, agents — from a team that's built and exited.",
     url: "https://robotsignals.io",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Robot Signals — AI Tools & Open Source",
-    description: "Open source AI automation tools. Lead generation, voice synthesis, help widgets, and Claude Code skills.",
+    title: "Robot Signals — AI Studio",
+    description: "AI strategy and engineering for businesses. Custom solutions, RAG, vision, agents — from a team that's built and exited.",
   },
 };
 
