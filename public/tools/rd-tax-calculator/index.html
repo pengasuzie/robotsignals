@@ -1,0 +1,1258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>R&D Tax Calculator for Bootstrapped Founders | Australia</title>
+  <meta name="description" content="Should you pay yourself a salary and claim R&D? The only calculator that shows the real numbers for self-funded Australian founders.">
+  <style>
+    :root {
+      --green: #16a34a;
+      --green-bg: #f0fdf4;
+      --amber: #d97706;
+      --amber-bg: #fffbeb;
+      --red: #dc2626;
+      --red-bg: #fef2f2;
+      --blue: #2563eb;
+      --blue-bg: #eff6ff;
+      --grey-50: #f9fafb;
+      --grey-100: #f3f4f6;
+      --grey-200: #e5e7eb;
+      --grey-300: #d1d5db;
+      --grey-400: #9ca3af;
+      --grey-500: #6b7280;
+      --grey-600: #4b5563;
+      --grey-700: #374151;
+      --grey-800: #1f2937;
+      --grey-900: #111827;
+      --radius: 8px;
+      --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06);
+      --shadow-md: 0 4px 6px rgba(0,0,0,0.07), 0 2px 4px rgba(0,0,0,0.06);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      color: var(--grey-800);
+      background: var(--grey-50);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Two-column layout */
+    .page-layout {
+      display: flex;
+      gap: 1.5rem;
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 4rem;
+      align-items: flex-start;
+    }
+
+    .col-main {
+      flex: 1;
+      min-width: 0;
+      max-width: 720px;
+    }
+
+    .col-sidebar {
+      width: 280px;
+      flex-shrink: 0;
+      position: sticky;
+      top: 1rem;
+    }
+
+    /* Sidebar card */
+    .sidebar-card {
+      background: white;
+      border: 1px solid var(--grey-200);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      box-shadow: var(--shadow-md);
+    }
+
+    .sidebar-card h3 {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--grey-500);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 0.75rem;
+    }
+
+    .sidebar-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 0.3rem 0;
+      font-size: 0.8rem;
+    }
+
+    .sidebar-row .label { color: var(--grey-600); }
+
+    .sidebar-row .amount {
+      font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+      font-weight: 500;
+      font-size: 0.8rem;
+    }
+
+    .sidebar-divider {
+      border-top: 2px solid var(--grey-200);
+      margin: 0.4rem 0;
+    }
+
+    .sidebar-total {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 0.5rem 0 0;
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .sidebar-total .amount {
+      font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+      font-size: 1.1rem;
+    }
+
+    header {
+      margin-bottom: 2rem;
+    }
+
+    header h1 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--grey-900);
+      margin-bottom: 0.75rem;
+      line-height: 1.3;
+    }
+
+    header .intro {
+      font-size: 0.95rem;
+      color: var(--grey-600);
+      line-height: 1.7;
+    }
+
+    section {
+      background: white;
+      border: 1px solid var(--grey-200);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: var(--shadow);
+    }
+
+    section h2 {
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: var(--grey-900);
+      margin-bottom: 1rem;
+    }
+
+    section h3 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--grey-700);
+      margin-bottom: 0.5rem;
+    }
+
+    /* Input styling */
+    .input-group {
+      margin-bottom: 1.25rem;
+    }
+
+    .input-group:last-child {
+      margin-bottom: 0;
+    }
+
+    .input-label {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--grey-700);
+      margin-bottom: 0.4rem;
+    }
+
+    .slider-row {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    input[type="range"] {
+      flex: 1;
+      height: 6px;
+      -webkit-appearance: none;
+      appearance: none;
+      background: var(--grey-200);
+      border-radius: 3px;
+      outline: none;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--blue);
+      cursor: pointer;
+      border: 2px solid white;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    }
+
+    input[type="range"]::-moz-range-thumb {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--blue);
+      cursor: pointer;
+      border: 2px solid white;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    }
+
+    .slider-value {
+      font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--grey-900);
+      min-width: 90px;
+      text-align: right;
+    }
+
+    .text-input {
+      font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+      font-size: 0.9rem;
+      padding: 0.5rem 0.75rem;
+      border: 1px solid var(--grey-300);
+      border-radius: 6px;
+      outline: none;
+      width: 120px;
+      transition: border-color 0.15s;
+    }
+
+    .text-input:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+
+    .toggle-group {
+      display: flex;
+      gap: 0;
+      border: 1px solid var(--grey-300);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .toggle-btn {
+      flex: 1;
+      padding: 0.45rem 0.75rem;
+      font-size: 0.8rem;
+      font-weight: 500;
+      background: white;
+      border: none;
+      border-right: 1px solid var(--grey-300);
+      cursor: pointer;
+      color: var(--grey-600);
+      transition: all 0.15s;
+    }
+
+    .toggle-btn:last-child {
+      border-right: none;
+    }
+
+    .toggle-btn.active {
+      background: var(--blue);
+      color: white;
+    }
+
+    .toggle-btn:hover:not(.active) {
+      background: var(--grey-50);
+    }
+
+    /* Money output styling */
+    .money {
+      font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+    }
+
+    .big-number {
+      font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+      font-size: 2.5rem;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    /* Table styling */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+    }
+
+    th {
+      text-align: left;
+      font-weight: 600;
+      color: var(--grey-500);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      padding: 0.5rem 0.75rem;
+      border-bottom: 2px solid var(--grey-200);
+    }
+
+    th.num {
+      text-align: right;
+    }
+
+    td {
+      padding: 0.6rem 0.75rem;
+      border-bottom: 1px solid var(--grey-100);
+    }
+
+    td.num {
+      text-align: right;
+      font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+      font-size: 0.85rem;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    tr.highlight-best {
+      background: var(--green-bg);
+    }
+
+    tr.highlight-current {
+      outline: 2px solid var(--blue);
+      outline-offset: -1px;
+    }
+
+    tr.dimmed {
+      opacity: 0.45;
+    }
+
+    tr.bracket-boundary td {
+      border-top: 2px solid var(--grey-300);
+    }
+
+    /* Breakdown table */
+    .breakdown-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding: 0.6rem 0;
+      border-bottom: 1px solid var(--grey-100);
+    }
+
+    .breakdown-row:last-child {
+      border-bottom: none;
+    }
+
+    .breakdown-row.total {
+      border-top: 2px solid var(--grey-300);
+      border-bottom: none;
+      font-weight: 600;
+      padding-top: 0.75rem;
+      margin-top: 0.25rem;
+    }
+
+    .breakdown-label {
+      font-size: 0.85rem;
+      color: var(--grey-700);
+    }
+
+    .breakdown-note {
+      font-size: 0.75rem;
+      color: var(--grey-400);
+      margin-top: 0.1rem;
+    }
+
+    .breakdown-amount {
+      font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+      font-size: 0.9rem;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    /* Summary box */
+    .summary-box {
+      background: var(--grey-50);
+      border: 1px solid var(--grey-200);
+      border-radius: 6px;
+      padding: 1rem 1.25rem;
+      margin-top: 1rem;
+      font-size: 0.85rem;
+      line-height: 1.7;
+    }
+
+    /* Warning box */
+    .warning-box {
+      background: var(--red-bg);
+      border: 1px solid #fecaca;
+      border-radius: 6px;
+      padding: 0.75rem 1rem;
+      font-size: 0.85rem;
+      color: var(--red);
+      margin-top: 0.75rem;
+    }
+
+    .note {
+      font-size: 0.8rem;
+      color: var(--grey-400);
+      margin-top: 0.75rem;
+      font-style: italic;
+    }
+
+    /* Expandable */
+    .expandable-toggle {
+      font-size: 0.8rem;
+      color: var(--blue);
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 0;
+      margin-top: 0.5rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    .expandable-toggle:hover {
+      text-decoration: underline;
+    }
+
+    .expandable-content {
+      display: none;
+      margin-top: 0.5rem;
+    }
+
+    .expandable-content.open {
+      display: block;
+    }
+
+    /* Tooltips */
+    .tooltip {
+      position: relative;
+      border-bottom: 1px dotted var(--grey-400);
+      cursor: help;
+    }
+
+    .tooltip .tip-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--grey-200);
+      color: var(--grey-500);
+      font-size: 0.65rem;
+      font-weight: 700;
+      cursor: help;
+      flex-shrink: 0;
+    }
+
+    .tooltip .tooltip-text {
+      visibility: hidden;
+      opacity: 0;
+      position: absolute;
+      bottom: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--grey-800);
+      color: white;
+      font-size: 0.75rem;
+      font-weight: 400;
+      line-height: 1.5;
+      padding: 0.5rem 0.75rem;
+      border-radius: 6px;
+      width: 240px;
+      z-index: 10;
+      transition: opacity 0.15s;
+      pointer-events: none;
+    }
+
+    .tooltip .tooltip-text::after {
+      content: '';
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      border: 6px solid transparent;
+      border-top-color: var(--grey-800);
+    }
+
+    .tooltip:hover .tooltip-text {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    /* Colour classes */
+    .text-green { color: var(--green); }
+    .text-amber { color: var(--amber); }
+    .text-red { color: var(--red); }
+    .bg-green { background: var(--green-bg); }
+    .bg-amber { background: var(--amber-bg); }
+    .bg-red { background: var(--red-bg); }
+
+    /* Key dates */
+    .dates-grid {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0.5rem 1rem;
+      font-size: 0.85rem;
+    }
+
+    .date-label {
+      font-weight: 600;
+      color: var(--grey-700);
+      white-space: nowrap;
+    }
+
+    .date-desc {
+      color: var(--grey-600);
+    }
+
+    /* Watch out list */
+    .watch-out {
+      border-left: 3px solid var(--amber);
+      padding-left: 1rem;
+    }
+
+    .watch-out li {
+      margin-bottom: 0.5rem;
+      font-size: 0.85rem;
+      color: var(--grey-700);
+      line-height: 1.6;
+    }
+
+    .watch-out li:last-child {
+      margin-bottom: 0;
+    }
+
+    /* Skill teaser */
+    #skill-teaser {
+      background: var(--grey-100);
+      border: 1px dashed var(--grey-300);
+    }
+
+    .badge {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      background: var(--amber-bg);
+      color: var(--amber);
+    }
+
+    .code-block {
+      background: var(--grey-800);
+      color: #e5e7eb;
+      font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+      font-size: 0.8rem;
+      padding: 0.75rem 1rem;
+      border-radius: 6px;
+      margin-top: 0.75rem;
+      line-height: 1.6;
+      opacity: 0.5;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      font-size: 0.75rem;
+      color: var(--grey-400);
+      padding: 1rem 0;
+      line-height: 1.6;
+    }
+
+    /* Responsive */
+    @media (max-width: 960px) {
+      .page-layout {
+        flex-direction: column;
+        max-width: 720px;
+      }
+
+      .col-sidebar {
+        display: none;
+      }
+
+      .col-main {
+        max-width: 100%;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .page-layout {
+        padding: 1.25rem 1rem 3rem;
+      }
+
+      header h1 {
+        font-size: 1.4rem;
+      }
+
+      .big-number {
+        font-size: 2rem;
+      }
+
+      section {
+        padding: 1.25rem;
+      }
+
+      .slider-row {
+        flex-wrap: wrap;
+      }
+
+      input[type="range"] {
+        width: 100%;
+        flex: unset;
+      }
+
+      .toggle-group {
+        flex-wrap: wrap;
+      }
+
+      .toggle-btn {
+        min-width: 0;
+      }
+
+      .sweet-spot-wrap {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        margin: 0 -1.25rem;
+        padding: 0 1.25rem;
+      }
+
+      .sweet-spot-wrap table {
+        min-width: 560px;
+      }
+
+      .dates-grid {
+        grid-template-columns: 1fr;
+        gap: 0.25rem;
+      }
+
+      .date-label {
+        margin-top: 0.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-layout">
+    <div class="col-main">
+    <header>
+      <h1>Australian R&D Tax Calculator for Bootstrapped Founders</h1>
+      <p class="intro">If you're a bootstrapped founder paying yourself from your own savings or mortgage, the R&D tax refund isn't free money — it's a partial rebate on the tax you pay on your own salary. This calculator shows you the real net benefit, including cost of funding salaries and including the value of superannuation.</p>
+    </header>
+
+    <main>
+      <section id="inputs">
+        <h2>Your Situation</h2>
+
+        <div class="input-group">
+          <div class="input-label">
+            Annual salary
+            <span class="tooltip"><span class="tip-icon">?</span><span class="tooltip-text">The gross annual salary you pay yourself from your company. This becomes both a company expense (deductible) and your personal income (taxable).</span></span>
+          </div>
+          <div class="slider-row">
+            <input type="range" id="salary-slider" min="0" max="300000" step="5000" value="135000">
+            <span class="slider-value" id="salary-display">$135,000</span>
+          </div>
+        </div>
+
+        <div class="input-group">
+          <div class="input-label">
+            Other taxable income
+            <span class="tooltip"><span class="tip-icon">?</span><span class="tooltip-text">Other taxable income you've earned this financial year outside the R&D company — consulting through your personal ABN, salary from another employer, dividends, rental income. Your R&D entity salary stacks on top, so it lands in higher marginal brackets.</span></span>
+          </div>
+          <input type="text" class="text-input" id="other-income" value="0" inputmode="numeric">
+        </div>
+
+        <div class="input-group">
+          <div class="input-label">
+            R&D time %
+            <span class="tooltip"><span class="tip-icon">?</span><span class="tooltip-text">The percentage of your working time spent on eligible R&D activities — building new or improved software, solving technical uncertainty. Must be documented.</span></span>
+          </div>
+          <div class="slider-row">
+            <input type="range" id="rd-slider" min="0" max="100" step="5" value="60">
+            <span class="slider-value" id="rd-display">60%</span>
+          </div>
+        </div>
+
+        <div class="input-group">
+          <div class="input-label">
+            Other R&D costs
+            <span class="tooltip"><span class="tip-icon">?</span><span class="tooltip-text">Non-salary R&D costs like cloud hosting, test devices, software licences used for R&D. These add to your capital outlay but don't qualify for the offset in this simplified model.</span></span>
+          </div>
+          <input type="text" class="text-input" id="other-costs" value="10,000" inputmode="numeric">
+        </div>
+
+        <div class="input-group">
+          <div class="input-label">
+            Specialist fees
+            <span class="tooltip"><span class="tip-icon">?</span><span class="tooltip-text">R&D tax consultant and accountant fees to prepare and lodge your R&D claim. Typically $4,000–$8,000 per year. Not part of R&D expenditure — a separate cost of claiming.</span></span>
+          </div>
+          <input type="text" class="text-input" id="specialist-fees" value="3,000" inputmode="numeric">
+        </div>
+
+        <div class="input-group">
+          <div class="input-label">
+            Funding source
+            <span class="tooltip"><span class="tip-icon">?</span><span class="tooltip-text">Where the money comes from to fund salary + super + costs. Mortgage redraw and savings both have a real cost of capital. External funding (investor, grant) has no personal interest cost.</span></span>
+          </div>
+          <div class="toggle-group" id="funding-toggle">
+            <button class="toggle-btn active" data-value="mortgage">Mortgage</button>
+            <button class="toggle-btn" data-value="savings">Savings</button>
+            <button class="toggle-btn" data-value="external">External</button>
+          </div>
+        </div>
+
+        <div class="input-group" id="coc-group">
+          <div class="input-label">
+            Cost of capital %
+            <span class="tooltip"><span class="tip-icon">?</span><span class="tooltip-text">Your mortgage interest rate or the return you'd earn on savings. This is the real cost of tying up that money while you wait for the ATO refund.</span></span>
+          </div>
+          <input type="text" class="text-input" id="cost-of-capital" value="5.5" inputmode="decimal" style="width: 80px;">
+          <span style="font-size: 0.85rem; color: var(--grey-500); margin-left: 0.25rem;">%</span>
+        </div>
+
+        <div class="input-group">
+          <div class="input-label">
+            Months until refund
+            <span class="tooltip"><span class="tip-icon">?</span><span class="tooltip-text">Time from when you inject borrowed capital into the business until the R&D refund hits your company bank account. Typically 6–9 months (lodge after EOFY + ATO processing). You're paying interest on that capital the entire time.</span></span>
+          </div>
+          <input type="text" class="text-input" id="months-until-refund" value="7" inputmode="numeric" style="width: 60px;">
+          <span style="font-size: 0.85rem; color: var(--grey-500); margin-left: 0.25rem;">months</span>
+        </div>
+      </section>
+
+      <section id="headline">
+        <h2>The Headline</h2>
+        <div id="headline-content"></div>
+      </section>
+
+      <section id="reality">
+        <h2>The Reality</h2>
+        <div id="reality-content"></div>
+      </section>
+
+      <section id="sweet-spot">
+        <h2>Sweet Spot Finder</h2>
+        <p style="font-size: 0.85rem; color: var(--grey-500); margin-bottom: 1rem;">Compare net value at different salary levels. Tax bracket boundaries marked.</p>
+        <div class="sweet-spot-wrap" id="sweet-spot-content"></div>
+      </section>
+
+      <section id="education">
+        <h2>Key Dates</h2>
+        <div class="dates-grid">
+          <div class="date-label">30 June 2026</div>
+          <div class="date-desc">Last day to pay <span class="tooltip" style="border-bottom: 1px dotted var(--grey-400);">associate<span class="tooltip-text">An "associate" in tax law includes company directors, shareholders, and their relatives. If you're a founder-director paying yourself a salary, you're an associate of the company.</span></span> salary for FY2025-26</div>
+
+          <div class="date-label">28th quarterly</div>
+          <div class="date-desc"><span class="tooltip" style="border-bottom: 1px dotted var(--grey-400);">Super guarantee<span class="tooltip-text">Employers must pay 11.5% super on top of salary. Due 28 days after each quarter (28 Oct, 28 Jan, 28 Apr, 28 Jul). Late payment triggers the Super Guarantee Charge — the amount owed plus interest and admin fees.</span></span> deadlines (28 Oct, 28 Jan, 28 Apr, 28 Jul)</div>
+
+          <div class="date-label">30 April 2027</div>
+          <div class="date-desc">AusIndustry R&D registration deadline for FY2025-26</div>
+
+          <div class="date-label">Late 2026</div>
+          <div class="date-desc">Tax return lodgement (or early 2027 via tax agent)</div>
+        </div>
+
+        <h3 style="margin-top: 1.5rem; margin-bottom: 0.75rem;">Watch Out</h3>
+        <ul class="watch-out">
+          <li><strong><span class="tooltip" style="border-bottom: 1px dotted var(--grey-400);">Arm's length<span class="tooltip-text">Your salary must be what an independent person would pay for the same role. The ATO can disallow R&D deductions if the salary is inflated. $60–150k is generally safe for technical founders.</span></span> salary:</strong> $60–150k is safe for most technical founders. Above that, document market comparables.</li>
+          <li><strong>$20,000 minimum:</strong> Your total R&D expenditure must reach $20,000 to qualify for the refundable offset. Below that, you can't claim.</li>
+          <li><strong>Backdated salary risk:</strong> If you backdate salary and super payments, overdue super triggers the Super Guarantee Charge — the amount owed plus interest and admin fees. Pay on time.</li>
+          <li><strong>Refund goes to the company:</strong> The R&D refund lands in your company bank account, not your personal account. You need a mechanism (dividend, loan repayment, salary) to extract it.</li>
+        </ul>
+      </section>
+
+      <section id="skill-teaser">
+        <h2 style="display: flex; align-items: center; gap: 0.5rem;">
+          Next Step: Document Your R&D Activities
+          <span class="badge">Coming Soon</span>
+        </h2>
+        <p style="font-size: 0.85rem; color: var(--grey-600); margin-bottom: 1rem;">
+          The calculator tells you whether to claim. But the ATO also needs you to document <em>what</em> you're building, <em>why</em> it qualifies as R&D, and <em>how</em> you're tracking it. That's the hard part — and it's where most founders under-invest.
+        </p>
+        <p style="font-size: 0.85rem; color: var(--grey-600); margin-bottom: 0.75rem;">
+          We're building a Claude Code skill that automates this:
+        </p>
+        <ul style="font-size: 0.85rem; color: var(--grey-700); padding-left: 1.25rem; margin-bottom: 1rem; line-height: 1.8;">
+          <li>Guided prompts to write ATO-compliant R&D project descriptions</li>
+          <li>The 4-part test (uncertainty, systematic experimentation, new knowledge, not routine)</li>
+          <li>Core vs Supporting activity classification</li>
+          <li>Evidence log templates tied to git commits</li>
+          <li>Example outputs based on real software R&D projects</li>
+        </ul>
+        <div class="code-block">
+          <div style="color: var(--grey-400); margin-bottom: 0.25rem;"># Install (coming soon)</div>
+          <div>Save to ~/.claude/skills/rd-tax-activities/SKILL.md</div>
+          <div style="margin-top: 0.25rem;">Then use <span style="color: #93c5fd;">/rd-tax</span> in Claude Code to start documenting</div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>Tax rates are for FY2024-25 and FY2025-26 (Stage 3 tax cuts). Super rate is 11.5% (FY2025-26).</p>
+      <p>This tool is for educational purposes only — consult a registered tax agent before making financial decisions. Not financial advice.</p>
+    </footer>
+    </div><!-- /.col-main -->
+
+    <aside class="col-sidebar">
+      <div id="sidebar-results"></div>
+    </aside>
+  </div>
+
+  <script>
+    // --- DOM refs ---
+    const salarySlider = document.getElementById('salary-slider');
+    const salaryDisplay = document.getElementById('salary-display');
+    const rdSlider = document.getElementById('rd-slider');
+    const rdDisplay = document.getElementById('rd-display');
+    const otherIncomeInput = document.getElementById('other-income');
+    const otherCostsInput = document.getElementById('other-costs');
+    const specialistFeesInput = document.getElementById('specialist-fees');
+    const fundingToggle = document.getElementById('funding-toggle');
+    const cocGroup = document.getElementById('coc-group');
+    const cocInput = document.getElementById('cost-of-capital');
+    const monthsInput = document.getElementById('months-until-refund');
+
+    // --- Formatting helpers ---
+    const fmt = n => '$' + Math.round(n).toLocaleString('en-AU');
+    const parseMoney = s => parseInt(String(s).replace(/[^0-9.-]/g, '')) || 0;
+
+    function formatMoneyInput(input) {
+      const raw = parseMoney(input.value);
+      if (!isNaN(raw) && raw > 0) {
+        input.value = raw.toLocaleString('en-AU');
+      }
+    }
+
+    // --- Funding source ---
+    let activeFunding = 'mortgage';
+    const defaultRates = { mortgage: '5.5', savings: '4.5', external: '0' };
+
+    fundingToggle.addEventListener('click', (e) => {
+      const btn = e.target.closest('.toggle-btn');
+      if (!btn) return;
+      fundingToggle.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      activeFunding = btn.dataset.value;
+      cocInput.value = defaultRates[activeFunding];
+      cocGroup.style.display = activeFunding === 'external' ? 'none' : '';
+      recalculate();
+    });
+
+    // --- Slider ↔ display sync ---
+    salarySlider.addEventListener('input', () => {
+      salaryDisplay.textContent = fmt(salarySlider.value);
+      recalculate();
+    });
+
+    rdSlider.addEventListener('input', () => {
+      rdDisplay.textContent = rdSlider.value + '%';
+      recalculate();
+    });
+
+    // --- Text inputs ---
+    [otherIncomeInput, otherCostsInput, specialistFeesInput].forEach(input => {
+      input.addEventListener('input', () => recalculate());
+      input.addEventListener('blur', () => formatMoneyInput(input));
+    });
+
+    [cocInput, monthsInput].forEach(input => {
+      input.addEventListener('input', () => recalculate());
+    });
+
+    // --- Read all inputs ---
+    function getInputs() {
+      return {
+        salary: parseInt(salarySlider.value),
+        otherIncome: parseMoney(otherIncomeInput.value),
+        rdPercent: parseInt(rdSlider.value) / 100,
+        otherRdCosts: parseMoney(otherCostsInput.value),
+        specialistFees: parseMoney(specialistFeesInput.value),
+        fundingSource: activeFunding,
+        costOfCapital: parseFloat(cocInput.value) / 100 || 0,
+        monthsUntilRefund: parseInt(monthsInput.value) || 7,
+      };
+    }
+
+    // --- Tax calculation ---
+    // FY2025-26 Australian tax brackets (Stage 3 cuts)
+    const TAX_BRACKETS = [
+      { min: 0, max: 18200, rate: 0 },
+      { min: 18200, max: 45000, rate: 0.16 },
+      { min: 45000, max: 135000, rate: 0.30 },
+      { min: 135000, max: 190000, rate: 0.37 },
+      { min: 190000, max: Infinity, rate: 0.45 },
+    ];
+    const MEDICARE_RATE = 0.02;
+    const SUPER_RATE = 0.115;
+    const RD_OFFSET_RATE = 0.435;
+
+    // Incremental tax on `salary` when it stacks on top of `otherIncome`.
+    // Bracket allocation shows the slice of salary that lands in each bracket.
+    function calculateTax(salary, otherIncome = 0) {
+      const lo = otherIncome;
+      const hi = otherIncome + salary;
+      let totalTax = 0;
+      const brackets = TAX_BRACKETS.map(b => {
+        const taxableAmount = Math.max(0, Math.min(hi, b.max) - Math.max(lo, b.min));
+        const tax = taxableAmount * b.rate;
+        totalTax += tax;
+        return { ...b, taxableAmount, tax };
+      });
+      const medicare = salary * MEDICARE_RATE;
+      return { brackets, totalTax, medicare, totalWithMedicare: totalTax + medicare };
+    }
+
+    function calculateRd(inputs) {
+      const { salary, otherIncome = 0, rdPercent, otherRdCosts, specialistFees, fundingSource, costOfCapital, monthsUntilRefund } = inputs;
+
+      const super_ = salary * SUPER_RATE;
+      const employmentCost = salary + super_;
+      // R&D expenditure = employment cost * R&D %. Other costs affect cash outlay
+      // but are excluded from the offset calculation in this simplified model.
+      const rdExpenditure = employmentCost * rdPercent;
+      const rdRefund = rdExpenditure * RD_OFFSET_RATE;
+
+      const tax = calculateTax(salary, otherIncome);
+
+      // Capital injection = salary + super + specialist fees + other costs
+      const injection = employmentCost + specialistFees + otherRdCosts;
+
+      // Net salary received = salary - tax
+      const netSalary = salary - tax.totalWithMedicare;
+
+      // Residual on mortgage = injection - netSalary (super + tax + fees + costs stay on mortgage)
+      const residual = injection - netSalary;
+
+      // Interest cost: months 1-4 linearly declining from injection to residual,
+      // months 5-N steady at residual until refund arrives
+      const paybackMonths = Math.min(4, monthsUntilRefund);
+      const waitMonths = Math.max(0, monthsUntilRefund - paybackMonths);
+      const avgDuringPayback = (injection + residual) / 2;
+      const weightedAvg = monthsUntilRefund > 0
+        ? ((paybackMonths * avgDuringPayback) + (waitMonths * residual)) / monthsUntilRefund
+        : 0;
+      const interestCost = fundingSource === 'external' ? 0 : weightedAvg * costOfCapital * (monthsUntilRefund / 12);
+
+      // Net value = refund + super - tax - fees - interest
+      const netValue = rdRefund + super_ - tax.totalWithMedicare - specialistFees - interestCost;
+      const accessibleCash = rdRefund - tax.totalWithMedicare - specialistFees - interestCost;
+
+      return {
+        salary, otherIncome, super_, employmentCost, rdExpenditure, rdRefund,
+        tax, injection, netSalary, residual, interestCost,
+        netValue, accessibleCash, specialistFees, otherRdCosts,
+        meetsMinimum: rdExpenditure >= 20000,
+        fundingSource, rdPercent,
+      };
+    }
+
+    function calculateSweetSpotTable(inputs) {
+      const salaryLevels = [45000, 80000, 100000, 120000, 135000, 150000, 190000];
+      if (!salaryLevels.includes(inputs.salary) && inputs.salary > 0) {
+        salaryLevels.push(inputs.salary);
+        salaryLevels.sort((a, b) => a - b);
+      }
+      return salaryLevels.map(s => calculateRd({ ...inputs, salary: s }));
+    }
+
+    function getValueColour(netValue) {
+      if (netValue > 5000) return 'green';
+      if (netValue > 0) return 'amber';
+      return 'red';
+    }
+
+    // --- Render: Headline ---
+    function renderHeadline(r) {
+      const el = document.getElementById('headline-content');
+      if (r.salary === 0 || r.rdPercent === 0) {
+        el.innerHTML = '<p style="color: var(--grey-400);">Set a salary and R&D percentage above to see your refund estimate.</p>';
+        return;
+      }
+
+      let warning = '';
+      if (!r.meetsMinimum) {
+        warning = `<div class="warning-box">Your R&D expenditure (${fmt(r.rdExpenditure)}) is below the $20,000 minimum. You cannot claim the refundable offset.</div>`;
+      }
+
+      el.innerHTML = `
+        <div class="big-number text-${getValueColour(r.rdRefund)}" style="margin-bottom: 0.25rem;">${fmt(r.rdRefund)}</div>
+        <p style="font-size: 0.9rem; color: var(--grey-600);">
+          On ${fmt(r.rdExpenditure)} of <span class="tooltip" style="border-bottom: 1px dotted var(--grey-400);">R&D expenditure<span class="tooltip-text">Your salary + super, multiplied by R&D time %. This is the amount eligible for the 43.5% refundable offset.</span></span>
+          at the 43.5% <span class="tooltip" style="border-bottom: 1px dotted var(--grey-400);">refundable offset<span class="tooltip-text">Companies with under $20M turnover get a refundable tax offset of 43.5% (company tax rate 25% + 18.5% premium). "Refundable" means you get cash back even if the company has no tax to pay.</span></span> rate
+        </p>
+        ${warning}
+        <p class="note">This is what most calculators tell you. If you're funding the company yourself, the real picture is below.</p>
+      `;
+    }
+
+    // --- Render: Reality ---
+    function renderReality(r) {
+      const el = document.getElementById('reality-content');
+      if (r.salary === 0) {
+        el.innerHTML = '';
+        return;
+      }
+
+      const colour = getValueColour(r.netValue);
+      const fundingLabel = r.fundingSource === 'mortgage' ? 'Mortgage interest cost'
+        : r.fundingSource === 'savings' ? 'Opportunity cost (savings)'
+        : '';
+
+      const otherIncome = r.otherIncome || 0;
+      const taxLabel = otherIncome > 0
+        ? `Additional tax on R&D salary + Medicare`
+        : `Personal income tax + Medicare`;
+      const stackNote = otherIncome > 0
+        ? `<div class="breakdown-note" style="margin-bottom:0.25rem;">Salary stacks on ${fmt(otherIncome)} of other income, landing in higher brackets.</div>`
+        : '';
+
+      // Build breakdown rows
+      let rows = `
+        <div class="breakdown-row">
+          <div>
+            <div class="breakdown-label">Capital injection required</div>
+            <div class="breakdown-note">From your ${r.fundingSource === 'external' ? 'investor/grant' : r.fundingSource} to fund the company</div>
+          </div>
+          <div class="breakdown-amount">${fmt(r.injection)}</div>
+        </div>
+        <div class="breakdown-row">
+          <div>
+            <div class="breakdown-label">${taxLabel}</div>
+            ${stackNote}
+            <div class="breakdown-note">
+              <button class="expandable-toggle" onclick="this.nextElementSibling.classList.toggle('open'); this.textContent = this.nextElementSibling.classList.contains('open') ? '▾ Hide bracket breakdown' : '▸ Show bracket breakdown'">▸ Show bracket breakdown</button>
+              <div class="expandable-content">
+                ${r.tax.brackets.filter(b => b.taxableAmount > 0).map(b =>
+                  `<div style="display:flex; justify-content:space-between; font-size:0.75rem; padding:0.15rem 0; color:var(--grey-500);">
+                    <span>${fmt(b.min)}–${b.max === Infinity ? '∞' : fmt(b.max)} @ ${(b.rate * 100).toFixed(0)}% on ${fmt(b.taxableAmount)}</span>
+                    <span class="money">${fmt(b.tax)}</span>
+                  </div>`
+                ).join('')}
+                <div style="display:flex; justify-content:space-between; font-size:0.75rem; padding:0.15rem 0; color:var(--grey-500);">
+                  <span>Medicare levy @ 2%</span>
+                  <span class="money">${fmt(r.tax.medicare)}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="breakdown-amount text-red">−${fmt(r.tax.totalWithMedicare)}</div>
+        </div>`;
+
+      // Interest row (only for mortgage/savings)
+      if (r.fundingSource !== 'external') {
+        rows += `
+        <div class="breakdown-row">
+          <div>
+            <div class="breakdown-label">${fundingLabel}</div>
+            <div class="breakdown-note">Weighted average over ${r.fundingSource === 'mortgage' ? 'mortgage' : 'savings'} while waiting for refund</div>
+          </div>
+          <div class="breakdown-amount text-red">−${fmt(r.interestCost)}</div>
+        </div>`;
+      }
+
+      // Specialist fees
+      if (r.specialistFees > 0) {
+        rows += `
+        <div class="breakdown-row">
+          <div>
+            <div class="breakdown-label">Specialist fees</div>
+            <div class="breakdown-note">R&D tax consultant + accountant</div>
+          </div>
+          <div class="breakdown-amount text-red">−${fmt(r.specialistFees)}</div>
+        </div>`;
+      }
+
+      // R&D refund
+      rows += `
+        <div class="breakdown-row">
+          <div>
+            <div class="breakdown-label">R&D refund to company</div>
+            <div class="breakdown-note">Cash from ATO → your company bank account</div>
+          </div>
+          <div class="breakdown-amount text-green">+${fmt(r.rdRefund)}</div>
+        </div>
+        <div class="breakdown-row">
+          <div>
+            <div class="breakdown-label">Super contributions</div>
+            <div class="breakdown-note">Your retirement savings (locked until ~60)</div>
+          </div>
+          <div class="breakdown-amount text-green">+${fmt(r.super_)}</div>
+        </div>
+        <div class="breakdown-row total">
+          <div>
+            <div class="breakdown-label" style="font-size:0.95rem;">Net total value</div>
+          </div>
+          <div class="breakdown-amount text-${colour}" style="font-size:1.1rem;">${r.netValue >= 0 ? '+' : ''}${fmt(r.netValue)}</div>
+        </div>`;
+
+      // Summary box
+      let summaryContent = '';
+      if (r.netValue > 0) {
+        summaryContent = `
+          <p>Of this <strong class="money">${fmt(r.netValue)}</strong> total value:</p>
+          <p><span class="money">${fmt(r.super_)}</span> is super (locked retirement savings)</p>
+          <p><span class="money">${r.accessibleCash < 0 ? '−' + fmt(Math.abs(r.accessibleCash)) : fmt(r.accessibleCash)}</span> is accessible cash position (refund − tax − fees${r.fundingSource !== 'external' ? ' − interest' : ''})</p>`;
+        if (r.accessibleCash < 0) {
+          summaryContent += `<p style="color: var(--amber); margin-top: 0.5rem;">The accessible cash is negative — the scheme's value comes entirely from super contributions.</p>`;
+        }
+      } else {
+        summaryContent = `<p style="color: var(--red);">At this salary, the costs exceed the benefits. The R&D offset doesn't cover tax + fees${r.fundingSource !== 'external' ? ' + interest' : ''}.</p>`;
+      }
+
+      el.innerHTML = `
+        ${rows}
+        <div class="summary-box">${summaryContent}</div>
+      `;
+    }
+
+    // --- Render: Sweet Spot ---
+    function renderSweetSpot(inputs) {
+      const el = document.getElementById('sweet-spot-content');
+      const table = calculateSweetSpotTable(inputs);
+      if (table.length === 0) { el.innerHTML = ''; return; }
+
+      // Find peak net value
+      let peakIdx = 0;
+      table.forEach((r, i) => { if (r.netValue > table[peakIdx].netValue) peakIdx = i; });
+
+      // Bracket boundaries for visual markers
+      const bracketBounds = [45000, 135000, 190000];
+
+      let rows = table.map((r, i) => {
+        const isCurrent = r.salary === inputs.salary;
+        const isPeak = i === peakIdx;
+        const isBracketBound = bracketBounds.includes(r.salary);
+        const classes = [
+          isPeak ? 'highlight-best' : '',
+          isCurrent ? 'highlight-current' : '',
+          !r.meetsMinimum ? 'dimmed' : '',
+          isBracketBound ? 'bracket-boundary' : '',
+        ].filter(Boolean).join(' ');
+
+        // Bracket label
+        let bracketLabel = '';
+        if (r.salary === 45000) bracketLabel = '<span style="font-size:0.65rem;color:var(--grey-400);">↑ 16% bracket ends</span>';
+        if (r.salary === 135000) bracketLabel = '<span style="font-size:0.65rem;color:var(--grey-400);">↑ 30% bracket ends</span>';
+        if (r.salary === 190000) bracketLabel = '<span style="font-size:0.65rem;color:var(--grey-400);">↑ 37% bracket ends</span>';
+
+        const label = isPeak ? ' <span style="color:var(--green);font-size:0.7rem;font-weight:600;">← Best</span>' : '';
+        const minNote = !r.meetsMinimum ? '<div style="font-size:0.65rem;color:var(--grey-400);">Below $20k min</div>' : '';
+
+        return `<tr class="${classes}">
+          <td class="num">${fmt(r.salary)}${isCurrent ? ' <span style="color:var(--blue);font-size:0.65rem;">●</span>' : ''}<br>${bracketLabel}</td>
+          <td class="num">${fmt(r.tax.totalWithMedicare)}</td>
+          <td class="num">${fmt(r.rdRefund)}${minNote}</td>
+          <td class="num">${r.fundingSource !== 'external' ? fmt(r.interestCost) : '—'}</td>
+          <td class="num">${fmt(r.super_)}</td>
+          <td class="num" style="font-weight:600;color:var(--${getValueColour(r.netValue)});">${r.netValue >= 0 ? '+' : ''}${fmt(r.netValue)}${label}</td>
+        </tr>`;
+      }).join('');
+
+      el.innerHTML = `<table>
+        <thead>
+          <tr>
+            <th class="num">Salary</th>
+            <th class="num">Tax</th>
+            <th class="num">R&D Refund</th>
+            <th class="num">Interest</th>
+            <th class="num">Super</th>
+            <th class="num">Net Value</th>
+          </tr>
+        </thead>
+        <tbody>${rows}</tbody>
+      </table>`;
+    }
+
+    // --- Render: Sidebar ---
+    function renderSidebar(r) {
+      const el = document.getElementById('sidebar-results');
+      if (!r || r.salary === 0 || r.rdPercent === 0) {
+        el.innerHTML = `<div class="sidebar-card">
+          <h3>Your R&D Numbers</h3>
+          <p style="font-size:0.8rem;color:var(--grey-400);">Adjust inputs to see results</p>
+        </div>`;
+        return;
+      }
+
+      const colour = getValueColour(r.netValue);
+
+      let interestRow = '';
+      if (r.fundingSource !== 'external') {
+        interestRow = `<div class="sidebar-row">
+          <span class="label">Interest</span>
+          <span class="amount text-red">−${fmt(r.interestCost)}</span>
+        </div>`;
+      }
+
+      let feesRow = '';
+      if (r.specialistFees > 0) {
+        feesRow = `<div class="sidebar-row">
+          <span class="label">Fees</span>
+          <span class="amount text-red">−${fmt(r.specialistFees)}</span>
+        </div>`;
+      }
+
+      let minWarning = '';
+      if (!r.meetsMinimum) {
+        minWarning = `<div style="background:var(--red-bg);border-radius:4px;padding:0.4rem 0.6rem;margin-top:0.5rem;font-size:0.7rem;color:var(--red);">Below $20k minimum</div>`;
+      }
+
+      el.innerHTML = `<div class="sidebar-card">
+        <h3>Your R&D Numbers</h3>
+        <div class="sidebar-row">
+          <span class="label">R&D refund</span>
+          <span class="amount text-green">+${fmt(r.rdRefund)}</span>
+        </div>
+        <div class="sidebar-row">
+          <span class="label">Tax + Medicare</span>
+          <span class="amount text-red">−${fmt(r.tax.totalWithMedicare)}</span>
+        </div>
+        ${interestRow}
+        ${feesRow}
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-row">
+          <span class="label">Accessible cash</span>
+          <span class="amount" style="font-weight:600;">${r.accessibleCash < 0 ? '−' + fmt(Math.abs(r.accessibleCash)) : fmt(r.accessibleCash)}</span>
+        </div>
+        <div class="sidebar-row" style="padding-top:0.1rem;">
+          <span class="label">Super (locked)</span>
+          <span class="amount text-green">+${fmt(r.super_)}</span>
+        </div>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-total">
+          <span>Net value</span>
+          <span class="amount text-${colour}">${r.netValue >= 0 ? '+' : ''}${fmt(r.netValue)}</span>
+        </div>
+        ${minWarning}
+      </div>`;
+    }
+
+    // --- Recalculate ---
+    function recalculate() {
+      const inputs = getInputs();
+      const result = calculateRd(inputs);
+      renderSidebar(result);
+      renderHeadline(result);
+      renderReality(result);
+      renderSweetSpot(inputs);
+    }
+
+    // Initial calc
+    recalculate();
+  </script>
+</body>
+</html>

@@ -1,7 +1,14 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  async rewrites() {
+    return [
+      {
+        source: "/tools/rd-tax-calculator",
+        destination: "/tools/rd-tax-calculator/index.html",
+      },
+    ];
+  },
 };
 
 export default nextConfig;
